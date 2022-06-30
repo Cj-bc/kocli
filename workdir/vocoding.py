@@ -18,7 +18,7 @@ data, samplerate = sf.read(INPUT_FILE)
 
 
 def convert_mono(mono_audio, samplerate):
-	f0, sp, ap = pw.wav2world(data[0], samplerate)
+	f0, sp, ap = pw.wav2world(mono_audio, samplerate)
 	converted_sp = np.zeros_like(sp)
 
 	for f in range(converted_sp.shape[1]):
