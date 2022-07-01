@@ -12,12 +12,8 @@ OUT_FILE = os.path.join(os.path.dirname(__file__), "converted.wav")
 
 data, samplerate = sf.read(INPUT_FILE)
 
-# Convert to float
-# data = data.astype(np.float)
-
-
-
 def convert_mono(mono_audio, samplerate):
+    # https://stackoverflow.com/questions/26778079/valueerror-ndarray-is-not-c-contiguous-in-cython
 	f0, sp, ap = pw.wav2world(mono_audio.copy(order='C'), samplerate)
 	converted_sp = np.zeros_like(sp)
 
@@ -29,8 +25,5 @@ def convert_mono(mono_audio, samplerate):
 ch1 = convert_mono(data[:, 0], samplerate)
 ch2 = convert_mono(data[:, 1], samplerate)
 
-print(f"ch1: {ch1}")
-print(f"ch2: {ch2}")
 result = np.dstack([ch1, ch2])[0,:,:]
-print(f"result: {result}")
-sf.write(OUT_FILE,result, samplerate)
+sf.write(OUT_FILE, result, samplerate)
