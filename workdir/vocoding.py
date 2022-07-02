@@ -29,5 +29,5 @@ def convert_mono(mono_audio, samplerate: float,
 ch1 = convert_mono(data[:, 0], samplerate, lambda f0: f0*2, lambda sp_v: int(sp_v/1.2))
 ch2 = convert_mono(data[:, 1], samplerate, lambda f0: f0*2, lambda sp_v: int(sp_v/1.2))
 
-result = np.dstack([ch1, ch2])[0,:,:]
+result = np.stack((ch1, ch2), axis=1)
 sf.write(OUT_FILE, result, samplerate)
