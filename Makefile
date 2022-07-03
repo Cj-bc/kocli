@@ -1,4 +1,4 @@
-version := 0.3
+version := 0.4
 
 MOUNT_OPTION := --mount type=bind,src=$(shell pwd)/workdir,dst=/workdir
 

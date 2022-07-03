@@ -5,3 +5,5 @@ RUN pip install pyworld
 
 run apk add libsndfile-dev libffi-dev build-base
 RUN pip install soundfile
+
+RUN pip install click
