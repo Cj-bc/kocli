@@ -7,6 +7,7 @@ import soundfile as sf
 import numpy as np
 import numpy.typing as npt
 from typing import Callable
+import click
 
 import os
 INPUT_FILE = os.path.join(os.path.dirname(__file__), "test-rec.wav")
@@ -43,15 +44,20 @@ def convert_mono(mono_audio: npt.NDArray[float], samplerate: float,
 
     return pw.synthesize(f0_converter(f0), converted_sp, ap, samplerate)
 
-def run():
+@click.command()
+@click.option("--output", default=OUT_FILE, help="Output wav file")
+@click.option("--f0", default=2, help="The value to multipy with f0")
+@click.option("--sp", default=5/6, help="The value to multipy with sp")
+@click.argument("file")
+def run(output, f0, sp, file):
     """Run Voice changer"""
-    data, samplerate = sf.read(INPUT_FILE)
+    data, samplerate = sf.read(file)
 
-    ch1 = convert_mono(data[:, 0], samplerate, lambda f0: f0*2, lambda sp_v: int(sp_v/1.2))
-    ch2 = convert_mono(data[:, 1], samplerate, lambda f0: f0*2, lambda sp_v: int(sp_v/1.2))
+    ch1 = convert_mono(data[:, 0], samplerate, lambda f0: f0*f0, lambda sp_v: int(sp_v*sp))
+    ch2 = convert_mono(data[:, 1], samplerate, lambda f0: f0*f0, lambda sp_v: int(sp_v*sp))
     
     result = np.stack((ch1, ch2), axis=1)
-    sf.write(OUT_FILE, result, samplerate)
+    sf.write(output, result, samplerate)
 
 if __name__ == '__main__':
     run()
