@@ -10,10 +10,9 @@ import os
 INPUT_FILE = os.path.join(os.path.dirname(__file__), "test-rec.wav")
 OUT_FILE = os.path.join(os.path.dirname(__file__), "converted.wav")
 
-data, samplerate = sf.read(INPUT_FILE)
 
 def identical(a):
-        return a
+    return a
 
 def convert_mono(mono_audio, samplerate: float,
                  f0_converter=identical, sp_converter=identical):
@@ -26,8 +25,16 @@ def convert_mono(mono_audio, samplerate: float,
 
 	return pw.synthesize(f0_converter(f0), converted_sp, ap, samplerate)
 
-ch1 = convert_mono(data[:, 0], samplerate, lambda f0: f0*2, lambda sp_v: int(sp_v/1.2))
-ch2 = convert_mono(data[:, 1], samplerate, lambda f0: f0*2, lambda sp_v: int(sp_v/1.2))
+def run():
+    """Run Voice changer"""
+    data, samplerate = sf.read(INPUT_FILE)
 
-result = np.stack((ch1, ch2), axis=1)
-sf.write(OUT_FILE, result, samplerate)
+    ch1 = convert_mono(data[:, 0], samplerate, lambda f0: f0*2, lambda sp_v: int(sp_v/1.2))
+    ch2 = convert_mono(data[:, 1], samplerate, lambda f0: f0*2, lambda sp_v: int(sp_v/1.2))
+    
+    result = np.stack((ch1, ch2), axis=1)
+    sf.write(OUT_FILE, result, samplerate)
+
+if __name__ == '__main__':
+    run()
+
