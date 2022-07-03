@@ -17,13 +17,13 @@ def identical(a):
 def convert_mono(mono_audio, samplerate: float,
                  f0_converter=identical, sp_converter=identical):
     # https://stackoverflow.com/questions/26778079/valueerror-ndarray-is-not-c-contiguous-in-cython
-	f0, sp, ap = pw.wav2world(mono_audio.copy(order='C'), samplerate)
-	converted_sp = np.zeros_like(sp)
+    f0, sp, ap = pw.wav2world(mono_audio.copy(order='C'), samplerate)
+    converted_sp = np.zeros_like(sp)
 
-	for f in range(converted_sp.shape[1]):
-		converted_sp[:, f] = sp[:, sp_converter(f)]
+    for f in range(converted_sp.shape[1]):
+        converted_sp[:, f] = sp[:, sp_converter(f)]
 
-	return pw.synthesize(f0_converter(f0), converted_sp, ap, samplerate)
+    return pw.synthesize(f0_converter(f0), converted_sp, ap, samplerate)
 
 def run():
     """Run Voice changer"""
