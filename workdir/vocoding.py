@@ -5,6 +5,8 @@
 import pyworld as pw
 import soundfile as sf
 import numpy as np
+import numpy.typing as npt
+from typing import Callable
 
 import os
 INPUT_FILE = os.path.join(os.path.dirname(__file__), "test-rec.wav")
@@ -12,10 +14,26 @@ OUT_FILE = os.path.join(os.path.dirname(__file__), "converted.wav")
 
 
 def identical(a):
+    """Return given value. Same as 'id' function of Haskell"""
     return a
 
-def convert_mono(mono_audio, samplerate: float,
-                 f0_converter=identical, sp_converter=identical):
+def convert_mono(mono_audio: npt.NDArray[float], samplerate: float,
+                 f0_converter: Callable[float, float] = identical,
+                 sp_converter: Callable[float, float] = identical):
+    """Convert monaural audio
+
+    Parameters:
+        mono_audio:
+            numpy array of audio stream.
+        samplerate:
+            samplerate of given audio.
+
+        f0_converter:
+            The function to modify f0.
+
+        sp_converter:
+            The function to modify sp.
+    """
     # https://stackoverflow.com/questions/26778079/valueerror-ndarray-is-not-c-contiguous-in-cython
     f0, sp, ap = pw.wav2world(mono_audio.copy(order='C'), samplerate)
     converted_sp = np.zeros_like(sp)
