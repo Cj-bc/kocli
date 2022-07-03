@@ -1,0 +1,52 @@
+[[file:JA_README.org][日本語版]]
+
+* コクリ(KoCli)
+Simple CLI-based voice changer that supports Linux.
+
+This is still in early development, please use it at your own risk.
+
+** Features
+
+** Installation
+Install Docker. It's depends on your distribution, so please
+refer to documentations of your own distro.
+
+Build ~build/Dockerfile~
+
+#+begin_src sh
+  sudo docker build ./build
+#+end_src
+
+** Usage
+(There're only plently of information available here, but I'll add them later.
+
+Put audio file at ~workdir/test-rec.wav~ and run ~make run~
+
+#+begin_src sh
+  make run
+#+end_src
+
+Generated file will be placed at ~workdir/converted.wav~
+** Why I'm making this
+I couldn't find any voice changer that fulfill:
+
++ open source
++ Available on Linux
++ Can run without GUI
+  
+** What this aims at
++ Simple, but extensible
++ Open sourced voice changer
++ CLI based executable
++ GNU/Linux first
+** What this doesn't aim at
++ Easy-to-use app for computer beginners.
++ The best voice changer in the world
+  + This is my experimental project, and I don't have any deep knowledge
+    about sounds and systems.
+** Currently not planned, but maybe/may not be
++ Cross-Platform support
+  + I only have GNU/Linux and macOS, so there's no way to test other platforms.
+  + I hope it will work on other platforms, but I'm not paying attention to it so much.
++ GUI based app
+  + CLI app should work fine, 
